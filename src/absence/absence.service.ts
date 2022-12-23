@@ -1,14 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { AbsenceEntity } from "./absence.entity";
-import { AbsenceDto } from "./absence.dto";
-import * as moment from "moment";
+/* eslint-disable prettier/prettier */
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AbsenceEntity } from './absence.entity';
+import { AbsenceDto } from './absence.dto';
+import * as moment from 'moment';
 
 enum AbsenceTypeEnums {
-  ALL = "all",
-  SICK = "sick",
-  VACATION = "vacation",
+  ALL = 'all',
+  SICK = 'sick',
+  VACATION = 'vacation',
 }
 
 @Injectable()
@@ -16,63 +17,44 @@ export class AbsenceService {
   constructor(
     @InjectRepository(AbsenceEntity)
     private readonly absenceRepository: Repository<AbsenceEntity>
-  ) {}
+  ) { }
 
-  SICK_ENTITLEMENT = 10;
-  VACATION_ENTITLEMENT = 20;
+
+  private readonly sickEntitlement = 10;
+  private readonly vacationEntitlement = 20;
 
   async getAll() {
     const absences = await this.absenceRepository.find();
-    return {
-      availableDays: this.getAvailableDays(absences),
-      absences: absences,
-    };
+    return absences;
+  }
+
+  async getAvailableDays() {
+    const absences = await this.absenceRepository.find();
+    return this.countAvailableDays(absences);
   }
 
   async addAbsence(body: AbsenceDto) {
     const absence: AbsenceEntity = new AbsenceEntity();
-
     absence.absenceType = body.absenceType;
     absence.fromDate = body.fromDate;
     absence.toDate = body.toDate;
     absence.comment = body.comment;
-
-    await this.absenceRepository.save(absence);
-    const absences = await this.absenceRepository.find();
-
-    return {
-      availableDays: this.getAvailableDays(absences),
-      absences,
-    };
+    return await this.absenceRepository.save(absence);
   }
 
   async deleteAbsence(id: number) {
-    await this.absenceRepository.delete({ id: id });
-    const absences = await this.absenceRepository.find();
-    const newAbsences = await this.absenceRepository.find();
-    return {
-      availableDays: this.getAvailableDays(absences),
-      absences: newAbsences,
-    };
+    return await this.absenceRepository.delete({ id: id });
   }
 
   async updateAbsence(id: number, absence: AbsenceDto) {
-    await this.absenceRepository.update(
-      {
-        id,
-      },
-      {
-        ...absence,
-      }
-    );
-    const absences = await this.absenceRepository.find();
-    return {
-      availableDays: this.getAvailableDays(absences),
-      absences,
-    };
+    return await this.absenceRepository.update({
+      id,
+    }, {
+      ...absence,
+    });
   }
 
-  getAvailableDays(data: AbsenceEntity[]) {
+  countAvailableDays(data: AbsenceEntity[]) {
     let sickTakenDays = 0;
     let vacationTakenDays = 0;
     data.forEach((absence) => {
@@ -91,13 +73,14 @@ export class AbsenceService {
     });
     return {
       sick: {
-        entitlement: this.SICK_ENTITLEMENT,
+        entitlement: this.sickEntitlement,
         taken: sickTakenDays,
       },
       vacation: {
-        entitlement: this.VACATION_ENTITLEMENT,
+        entitlement: this.vacationEntitlement,
         taken: vacationTakenDays,
       },
-    };
+    }
   }
+
 }
