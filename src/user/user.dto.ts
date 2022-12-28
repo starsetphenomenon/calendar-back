@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { IsInt, IsString } from 'class-validator';
 
 export class UserDto {
-    @IsInt() id?: number;
-    @IsString({ always: true }) email!: string;
-    @IsString({ always: true }) userName!: string;
-    @IsString({ always: true }) password!: string;
+    id?: number;
+    email!: string;
+    userName!: string;
+    password!: string;
 }
