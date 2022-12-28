@@ -1,10 +1,9 @@
-import { IsInt, IsString } from 'class-validator';
-
+/* eslint-disable prettier/prettier */
 export class AbsenceDto {
-    @IsInt() id!: number;
-    @IsString({ always: true }) absenceType!: string;
-    @IsString({ always: true }) fromDate!: string;
-    @IsString({ always: true }) toDate!: string;
-    @IsString({ always: true }) comment!: string;
-    @IsString({ always: true }) userName!: string;
+    id!: number;
+    absenceType!: string;
+    fromDate!: string;
+    toDate!: string;
+    comment!: string;
+    userName!: string;
 }
