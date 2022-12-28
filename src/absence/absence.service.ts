@@ -1,12 +1,17 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AbsenceEntity } from './absence.entity';
 import { AbsenceDto } from './absence.dto';
-import { AbsenceTypeEnums } from 'shared';
 import * as moment from 'moment';
 import { UserDto } from '../user/user.dto';
+
+export enum AbsenceTypeEnums {
+    ALL = 'all',
+    SICK = 'sick',
+    VACATION = 'vacation',
+  }
 
 @Injectable()
 export class AbsenceService {
