@@ -2,7 +2,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AbsenceEntity } from "../absence/absence.entity";
 
-@Entity({ name: 'usersTable' })
+@Entity({ name: 'users' })
 export class UserEntity {
     @PrimaryGeneratedColumn()
     id!: number;
