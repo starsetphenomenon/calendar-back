@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserDto } from './user.dto';
 import { UserService } from './user.service';
 
@@ -8,8 +8,9 @@ export class UserController {
     constructor(private userService: UserService) { }
 
     @Get()
-    async getUser() {
-        //return this.absenceService.getAll();
+    async getUser(@Query() query: { user: string }) {
+        const user = JSON.parse(query.user)
+        return this.userService.authenticateUser(user);
     }
 
     @Post()

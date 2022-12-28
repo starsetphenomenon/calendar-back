@@ -12,10 +12,10 @@ export class UserEntity {
     @Column({ unique: true })
     email!: string;
 
-    @Column({ unique: true })
+    @Column()
     password!: string;
-    
 
-   /*  @OneToMany(() => AbsenceEntity, (absence) => absence.userName)
-    absences!: AbsenceEntity[]; */
+    @OneToMany(() => AbsenceEntity, (absence) => absence.user,
+        { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+    absences!: AbsenceEntity[];
 }

@@ -1,11 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AbsenceTypeEnums } from 'shared';
-import * as moment from 'moment';
-import { AbsenceDto } from '../absence/absence.dto';
-import { AbsenceEntity } from '../absence/absence.entity';
 import { UserEntity } from './user.entity';
 import { UserDto } from './user.dto';
 
@@ -16,12 +12,35 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>
     ) { }
 
-    async getUser() {
-        const user = await this.userRepository.find();
-        return user;
+    async authenticateUser(user: UserDto) {
+        const checkUser = await this.userRepository.findOneBy({
+            email: user.email,
+        });
+
+        if (!checkUser) {
+            return 'User does not exist!';
+        }
+
+        if (checkUser.password !== user.password) {
+            return 'Wrong password!';
+        }
+
+        return checkUser;
     }
 
     async addUser(body: UserDto) {
+        const userExist = await this.userRepository.findOneBy({
+            email: body.email,
+        });
+
+        if (userExist && (userExist.userName === body.userName)) {
+            return 'Username has already been taken';
+        }
+
+        if (userExist) {
+            return 'Email has already been taken';
+        }
+
         const user: UserEntity = new UserEntity();
         user.userName = body.userName;
         user.email = body.email;

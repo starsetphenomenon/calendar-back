@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AbsenceModule } from './absence/absence.module';
@@ -16,7 +17,7 @@ import { UserEntity } from './user/user.entity';
     database: 'c3fd690d-1f53-4b5a-a611-2858d5be6e41',
     entities: [AbsenceEntity, UserEntity],
     migrations: [AbsenceEntity, UserEntity],
-    //synchronize: true,
+    synchronize: true,
   }),
     AbsenceModule,
     UserModule,
