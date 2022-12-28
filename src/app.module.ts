@@ -10,11 +10,11 @@ import { UserEntity } from './user/user.entity';
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'db.thin.dev',
-    port: 5432,
-    username: 'bIQhpdhPUbQoiXVeUIAXCXJwbCKVKKxK',
-    password: 'DFhsQtxeHASiSDjuPYThLPJrPInbPBMb',
-    database: 'c3fd690d-1f53-4b5a-a611-2858d5be6e41',
+    host: 'containers-us-west-90.railway.app',
+    port: 6685,
+    username: 'postgres',
+    password: 'D2LoBbSMM0Z0i0VaqzGX',
+    database: 'railway',
     entities: [AbsenceEntity, UserEntity],
     migrations: [AbsenceEntity, UserEntity],
     synchronize: true,
