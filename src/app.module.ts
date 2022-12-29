@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 
 import { AbsenceEntity } from './absence/absence.entity';
 import { UserEntity } from './user/user.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,6 +22,15 @@ import { UserEntity } from './user/user.entity';
   }),
     AbsenceModule,
     UserModule,
+  {
+    ...JwtModule.register({
+      secret: 'secretKey',
+      signOptions: {
+        expiresIn: '600s',
+      }
+    }),
+    global: true,
+  }
   ],
   controllers: [],
   providers: [],

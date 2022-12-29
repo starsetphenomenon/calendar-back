@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserDto } from './user.dto';
 import { UserService } from './user.service';
@@ -8,15 +7,14 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private userService: UserService) { }
 
-    @Get()
-    async getUser(@Query() query: { user: string }) {
-        const user = JSON.parse(query.user)
-        return this.userService.authenticateUser(user);
+    @Post('login')
+    async loginUser(@Body() user: UserDto) {
+        return this.userService.loginUser(user);
     }
 
-    @Post()
-    async addUser(@Body() user: UserDto) {
-        return this.userService.addUser(user);
+    @Post('register')
+    async registerUser(@Body() user: UserDto) {
+        return this.userService.registerUser(user);
     }
 
 }
