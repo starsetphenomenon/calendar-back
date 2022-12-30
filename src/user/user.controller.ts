@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import { Body, Controller, Post } from '@nestjs/common';
 import { UserDto } from './user.dto';
 import { UserService } from './user.service';
 

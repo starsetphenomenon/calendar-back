@@ -31,7 +31,7 @@ export class AbsenceService {
             where: {
                 user: { id }
             },
-        })
+        });
         return absences;
     }
 

@@ -1,4 +1,4 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
+/* eslint-disable prettier/prettier */
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -14,6 +14,14 @@ export class UserService {
         private readonly userRepository: Repository<UserEntity>,
         private jwtService: JwtService
     ) { }
+
+    async validateUser(id: number) {
+        const userExist = await this.userRepository.findOneBy({ id });
+        if (!userExist) {
+            throw new UnauthorizedException('Wrong Token!');
+        }
+        return userExist;
+    }
 
     async loginUser(user: UserDto) {
         const userExist = await this.userRepository.findOneBy({
