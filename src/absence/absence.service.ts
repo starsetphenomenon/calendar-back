@@ -12,7 +12,7 @@ export enum AbsenceTypeEnums {
     ALL = 'all',
     SICK = 'sick',
     VACATION = 'vacation',
-  }
+}
 
 @Injectable()
 export class AbsenceService {
@@ -45,13 +45,13 @@ export class AbsenceService {
         return this.countAvailableDays(absences);
     }
 
-    async addAbsence(body: { userToken: string, absence: AbsenceDto }) {
-        const { id } = await this.jwtService.verify(body.userToken);
-        const absence = await this.absenceRepository.create({
-            ...body.absence,
+    async addAbsence(userToken: string, absence: AbsenceDto) {
+        const { id } = await this.jwtService.verify(userToken);
+        const newAbsence = await this.absenceRepository.create({
+            ...absence,
             user: id,
         });
-        return await this.absenceRepository.save(absence);
+        return await this.absenceRepository.save(newAbsence);
     }
 
     async deleteAbsence(id: number) {
